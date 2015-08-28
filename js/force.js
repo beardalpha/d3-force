@@ -19,8 +19,44 @@ for (var i=0; i<nodes.length; i++){
         for(var x=0; x<nodes[i].target.length; x++){
             links.push({
                 source: nodes[i],
-                target: nodes[nodes[i].target[x]];
+                target: nodes[nodes[i].target[x]]
             })   
         }
     }
 }
+
+var canvas = d3.select('#canvas').append('svg')
+                .attr('width', w)
+                .attr('height', h)
+
+var force = d3.layout.force()
+        .nodes(nodes)
+        .links([])
+        .gravity(.1)
+        .charge(-1000)
+        .size([w,h])
+
+var link = canvas.selectAll('line')
+    .data(links)
+    .enter().append('line')
+    .attr('stroke', 'black')
+
+var node = canvas.selectAll('circle')
+        .data(nodes)
+        .enter().append('g')
+        .call(force.drag);
+
+node.append('circle')
+    .attr('cx', function(d){ return d.x; })
+    .attr('cy', function(d){ return d.y; })
+    .attr('r', circeWidth)
+    .attr('fill', 'red')
+
+force.on('tick', function(e){
+    node.attr('transform', function(d,i){
+        return 'translate('+ d.x +', '+d.y+')';   
+    })   
+})
+
+force.start();
+

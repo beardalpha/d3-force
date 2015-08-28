@@ -50,12 +50,25 @@ node.append('circle')
     .attr('cx', function(d){ return d.x; })
     .attr('cy', function(d){ return d.y; })
     .attr('r', circeWidth)
-    .attr('fill', 'red')
+    .attr('fill', 'maroon')
 
 force.on('tick', function(e){
     node.attr('transform', function(d,i){
         return 'translate('+ d.x +', '+d.y+')';   
-    })   
+    })  
+    link
+    .attr('x1', function(d){
+        return d.source.x
+    })
+    .attr('y1', function(d){
+        return  d.source.y
+    })
+    .attr('x2', function(d){
+        return d.target.x
+    })
+    .attr('y2', function(d){
+        return  d.target.y
+    })
 })
 
 force.start();

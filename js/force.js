@@ -50,7 +50,33 @@ node.append('circle')
     .attr('cx', function(d){ return d.x; })
     .attr('cy', function(d){ return d.y; })
     .attr('r', circeWidth)
-    .attr('fill', 'maroon')
+    .attr('fill', function(d, i){
+        if(i>0){
+            return 'red'   
+        } else {
+            return 'blue'   
+        }
+    })
+
+node.append('text')
+    .text(function(d){
+        return d.name;   
+    })
+    .attr('fill', '#777')
+    .attr('text-anchor', function(d, i){
+        if(i>0){
+            return 'beginning'   
+        } else {
+            return 'end'   
+        }
+    })
+    .attr('font-size', function(d, i){
+        if(i>0){
+            return '1.3em'   
+        } else {
+            return '1.8em'   
+        }
+    })
 
 force.on('tick', function(e){
     node.attr('transform', function(d,i){
